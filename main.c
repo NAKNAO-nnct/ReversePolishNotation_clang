@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 // stack
@@ -9,7 +10,9 @@
 typedef int data_t;
 
 typedef struct {
-    int num;
+    double num;
+//    double decimal;
+//    char*
     data_t data[STACK_SIZE];
 } stack_t;
 
@@ -46,37 +49,55 @@ void stackPrint(stack_t *stk)
     printf("]\n");
 }
 
-void rmStr(char *str){
-//    char c = str;
-//    *str++ = '\0';
+// 指定文字列を削除
+char* rmStr(char *str, char symbol){
+
     const int len = strlen(str);
-    char *rt ;
+    int count = 0;
+
+    char *rt = (char *)malloc(1000 * sizeof(char));
 
     for(int i=0; i<len; i++){
-        if(str[i] == '\'')
+        if(str[i] == symbol)
             continue;
-        *rt = str[i];
-//        if(*(str+i) == '/') {
-//            *(str+i) = '\0';
-//            printf("Fuck you! %d\n", i);
-//            break;
-//        }
+        rt[count] = str[i];
+        count++;
     }
-//    *str = '\0';
-//    if(*str == '/'){}
-//        printf("Fuck you!\n");
-//    return *str;
-//    str[4] = ' ';
-    printf("%s\n", str);
+
+    return rt;
+}
+
+// 指定した文字列までを返す
+char* splitSymbol(char *str, char symbol){
+    const int len = strlen(str);
+
+    char *rt = (char *)malloc(1000 * sizeof(char));
+
+    for (int i=0; i<len; i++){
+        if(str[i] == symbol)
+            break;
+        rt[i] = str[i];
+    }
+
+    return rt;
 }
 
 int main(int argc, char *argv[]) {
 
     char *input = "'123.456+3.14/(100-5)'";
 
-    printf("Before: %s\n", input);
-    rmStr(input);
-    printf("After : %s\n", input);
+    printf("input: %s\n", input);
+
+    // \'を削除
+    char *data =(char *)malloc(1000 * sizeof(char));
+    strcpy(rmStr(input, '\''), data);
+//    *data = rmStr(input, '\'');
+    printf("numFormula  : %s\n", data);
+
+    // 数字分割
+    while(1){
+        break;
+    }
 
 
 
@@ -85,20 +106,22 @@ int main(int argc, char *argv[]) {
 //    }
 
 
-    stack_t stk;
-    int i, p;
-
-    stk.num = 0; /* スタックのデータ数を 0 に初期化 */
-    for (i = 1; i <=4 ; i++) {
-        push(&stk, i);                  /* 1 から 4 までの数値を push */
-        printf("push %2d :", i);
-        stackPrint(&stk);
-    }
-    while (stk.num > 0) {
-        pop(&stk, &p);                /* スタックに残っているデータを全て pop */
-        printf("pop  %2d :", p);
-        stackPrint(&stk);
-    }
+//    stack_t stk;
+//    int i, p;
+//
+//    stk.num = 0; /* スタックのデータ数を 0 に初期化 */
+//    for (i = 1; i <=4 ; i++) {
+//        push(&stk, i);                  /* 1 から 4 までの数値を push */
+//        printf("push %2d :", i);
+//        stackPrint(&stk);
+//    }
+//    while (stk.num > 0) {
+//        pop(&stk, &p);                /* スタックに残っているデータを全て pop */
+//        printf("pop  %2d :", p);
+//        stackPrint(&stk);
+//    }
 
     return 0;
 }
+
+// コマンドに数式をいれて計算する
